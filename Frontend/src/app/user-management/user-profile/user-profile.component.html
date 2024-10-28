@@ -1,0 +1,96 @@
+<div class="card px-6 py-6">
+
+    <p-toast></p-toast>
+
+    <div class="profile">
+        <div class="details">
+            <h2>{{currentUser.title}}. {{this.currentUser.firstName}} {{this.currentUser.lastName}}</h2>
+
+        </div>
+    </div>
+    <div class="grid pt-5">
+        <div class="col-6 text-lg">
+            <div class="field">
+                <label for="department">Email</label>
+                <label for="email" class="flex text-900 text-xl mb-2">{{currentUser.email}}</label>
+                <hr />
+            </div>
+            <div class="field">
+                <label for="department">Role</label>
+                <label for="email" class="flex text-900 text-xl mb-2">{{currentUser.roleName}}</label>
+                <hr />
+            </div>
+        </div>
+        <div class="col-6 text-lg">
+            <p>
+                Verified:
+                <i class="pi" [ngClass]="{
+                    'true-icon pi-check-circle text-green-500': currentUser.isVerified, 
+                    'false-icon pi-times-circle text-pink-500': !currentUser.isVerified
+                }"></i>
+            </p>
+            <p>
+                Activated:
+                <i class="pi" [ngClass]="{
+                    'true-icon pi-check-circle text-green-500': currentUser.isActivated, 
+                    'false-icon pi-times-circle text-pink-500': !currentUser.isActivated
+                }"></i>
+        </div>
+    </div>
+
+
+    <div class="flex justify-content-between">
+        <div class="field text-lg">
+            <p>Created: {{currentUser.created | date: 'fullDate'}}</p>
+        </div>
+        <div class="">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                (click)="edit(currentUser)"></button>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Edit modal -->
+<p-dialog header="Edit Account" [(visible)]="updateModal" [style]="{width: '40%'}" class="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <div class="px-8 py-6">
+
+            <div class="field">
+                <label for="title" class="flex text-900 text-xl font-medium mb-2">Title</label>
+                <input id="title" [(ngModel)]="updateUser.title" placeholder="Title" pInputText>
+            </div>
+
+            <div class="field">
+
+                <label for="firstname" class="flex text-900 text-xl font-medium mb-2">Firstname</label>
+                <input id="firstname" type="text" [(ngModel)]="updateUser.firstName" placeholder="First Name"
+                    pInputText>
+            </div>
+
+            <div class="field">
+                <label for="lastname" class="flex text-900 text-xl font-medium mb-2">Lastname</label>
+                <input id="lastname" type="text" [(ngModel)]="updateUser.lastName" placeholder="Last Name" pInputText>
+            </div>
+
+            <div class="field">
+                <label for="email" class="flex text-900 text-xl font-medium mb-2">Email</label>
+                <input id="email" type="text" [(ngModel)]="updateUser.email" placeholder="Email address" pInputText>
+            </div>
+
+            <div class="field">
+                <label for="role" class="flex text-900 text-xl font-medium mb-2">Role</label>
+                <input id="email" type="text" [(ngModel)]="updateUser.role" placeholder="Email address" [disabled]="true" pInputText pTooltip="Contact Your Admin For Role Edit">
+            </div>
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2"
+            (click)="updateModal=false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-rounded p-button-success mr-2"
+            (click)="update()"></button>
+    </ng-template>
+
+</p-dialog>

@@ -1,0 +1,102 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <p-toast></p-toast>
+        <img src="assets/layout/images/shearwater-logo.jpg" alt="Shearwater logo" class="mb-5 w-10rem flex-shrink-0" />
+
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="shadow-8 surface-card py-6 px-5 sm:px-8" style="border-radius:53px">
+
+                <div class="text-center mb-4">
+                    <span class="text-600 font-medium">Register New Account to continue</span>
+                </div>
+
+                <div class="p-fluid">
+                    <div class="grid">
+                        <div class="col-6">
+
+                            <label for="title" class="flex text-900 text-xl font-medium mb-2">Title</label>
+                            <input id="title" [(ngModel)]="account.title" placeholder="Title" pInputText
+                                class="w-full md:w-30rem mb-4">
+
+                            <label for="firstname" class="flex text-900 text-xl font-medium mb-2">Firstname</label>
+                            <input id="firstname" type="text" [(ngModel)]="account.firstName" placeholder="First Name"
+                                pInputText class="w-full md:w-30rem mb-4">
+
+                            <label for="lastname" class="flex text-900 text-xl font-medium mb-2">Lastname</label>
+                            <input id="lastname" type="text" [(ngModel)]="account.lastName" placeholder="First Name"
+                                pInputText class="w-full md:w-30rem mb-4">
+                        </div>
+                        <div class="col-6">
+
+                            <label for="email" class="flex text-900 text-xl font-medium mb-2">Email</label>
+                            <input id="email" type="text" [(ngModel)]="account.email" placeholder="Email address"
+                                pInputText class="w-full md:w-30rem mb-4">
+                        </div>
+                    </div>
+                    <div class="flex flex-column align-items-center">
+                        <div>
+                            <label for="role" class="flex text-900 text-xl font-medium mb-2">Role</label>
+                            <p-dropdown id="role" [showClear]="true" styleClass="mb-3" [options]="roles"
+                                [(ngModel)]="account.role" placeholder="Select a Role"
+                                class="w-full md:w-30rem"></p-dropdown>
+
+                            <label for="password" class="flex text-900 font-medium text-xl mb-2">Password</label>
+                            <p-password [(ngModel)]="account.password" [ngClass]="passwordStatus" placeholder="Password" [toggleMask]="true"
+                                inputStyleClass="w-full p-3 md:w-30rem">
+                                <ng-template pTemplate="header">
+                                    <h6>Password</h6>
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <p-divider></p-divider>
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>At least one special character</li>
+                                        <li>Minimum 6 characters</li>
+                                    </ul>
+                                </ng-template>
+                            </p-password>
+                            <!-- <p-password id="password" [(ngModel)]="account.password" placeholder="Password" 
+                                [toggleMask]="true" styleClass="mb-3"
+                                inputStyleClass="w-full p-3 md:w-30rem"></p-password> -->
+
+                            <label for="password" class="flex text-900 font-medium text-xl mb-2">Confirm
+                                Password</label>
+                            <p-password id="password" [(ngModel)]="account.confirmPassword" [feedback]="false"
+                                placeholder="Re-Enter Password" [toggleMask]="true"
+                                inputStyleClass="w-full p-3 md:w-30rem" [ngClass]="passwordStatus"></p-password>
+
+                        </div>
+                        <small class="ng-dirty ng-invalid" style="color:red" *ngIf="!isValid">
+                            {{validationMessage}}
+                        </small>
+                    </div>
+
+                    <div class="field justify-content-end">
+                        <span class="text-900 font-medium text-xl mb-4"></span>
+                        <p-checkbox [(ngModel)]="account.acceptTerms" [binary]="true" inputId="binary"
+                            label="Accept Terms" inputStyleClass="w-full p-3 md:w-30rem"></p-checkbox>
+                    </div>
+
+
+                    <div class="flex flex-column align-items-center justify-content-center">
+
+                        <button pButton pRipple label="Sign Up" class="w-3 p-3 text-xl" [loading]="loading"
+                            [disabled]="!account.acceptTerms" (click)="register()"></button>
+                    </div>
+
+                    <div class="flex justify-content-around text-xl mt-3">
+                        <span>
+                            Already Have An Account?
+                            <a class="font-medium no-underline cursor-pointer" style="color: var(--primary-color)"
+                                routerLink="/auth/login">Login Here</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

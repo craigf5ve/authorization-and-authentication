@@ -1,0 +1,240 @@
+<div class="card px-6 py-6">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <button pButton label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="create()"></button>
+
+    </div>
+
+    <!-- Main Table  -->
+    <p-table #dt [value]="accounts" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+        [globalFilterFields]="['name']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+        <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                <h5 class="m-0">Manage User Accounts</h5>
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                        class="w-full sm:w-auto" />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+
+                <th pSortableColumn="title" style="width: 6%">Title <p-sortIcon field="title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="firstname" style="width: 20%">Firstname <p-sortIcon field="firstname"></p-sortIcon>
+                </th>
+                <th pSortableColumn="lastname" style="width: 20%">Lastname <p-sortIcon field="lastname"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email" style="width: 15%">Email <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="role" style="width: 8%">Role <p-sortIcon field="role"></p-sortIcon>
+                </th>
+                <th pSortableColumn="department" style="width: 15%">Department <p-sortIcon
+                        field="department"></p-sortIcon></th>
+                <th pSortableColumn="status" style="width: 6%">Verified <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status" style="width: 6%">Activated <p-sortIcon field="status"></p-sortIcon>
+                </th>
+
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-account>
+            <tr style="height: 0.25rem; font-size: 11px;">
+                <td>
+                    <p-tableCheckbox [value]="account"></p-tableCheckbox>
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Title</span>
+                    {{account.title}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Firstname</span>
+                    {{account.firstName}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Lastname</span>
+                    {{account.lastName}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Email</span>
+                    {{account.email}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Role</span>
+                    {{account.roleName}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;">
+                    <span class="p-column-title">Department</span>
+                    {{account.departmentName}}
+                </td>
+                <td style="width:16.666%; min-width:10rem;" class="text-center">
+                    <span class="p-column-title">Status</span>
+                    <i class="pi" [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500': account.isVerified,
+                                    'false-icon pi-times-circle text-pink-500': !account.isVerified
+                                }"></i>
+                </td>
+                <td style="width:16.666%; min-width:10rem;" class="text-center">
+                    <span class="p-column-title">Status</span>
+                    <i class="pi" [ngClass]="{
+                                    'true-icon pi-check-circle text-green-500': account.isActivated,
+                                    'false-icon pi-times-circle text-pink-500': !account.isActivated
+                                }"></i>
+                </td>
+                <td style="font-size: 4%;">
+                    <div class="flex">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                            (click)="edit(account)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2"
+                            (click)="delete(account)"></button>
+                        <button pButton pRipple icon="pi pi-check-circle" class="p-button-rounded p-button-warning mr-2"
+                            *ngIf="!account.isActivated" (click)="activateAccount(account)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- Create modal -->
+<p-dialog header="Add New Account" [(visible)]="createModal" [style]="{width: '50%'}" class="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <div class="p-5">
+            <div class="grid">
+                <div class="col-6">
+
+                    <label for="title" class="flex text-900 text-xl font-medium mb-2">Title</label>
+                    <input id="title" [(ngModel)]="account.title" placeholder="Title" pInputText
+                        class="w-full md:w-30rem mb-4">
+
+                    <label for="firstname" class="flex text-900 text-xl font-medium mb-2">Firstname</label>
+                    <input id="firstname" type="text" [(ngModel)]="account.firstName" placeholder="First Name"
+                        pInputText class="w-full md:w-30rem mb-4">
+
+                    <label for="lastname" class="flex text-900 text-xl font-medium mb-2">Lastname</label>
+                    <input id="lastname" type="text" [(ngModel)]="account.lastName" placeholder="First Name" pInputText
+                        class="w-full md:w-30rem mb-4">
+                </div>
+                <div class="col-6">
+
+                    <label for="email" class="flex text-900 text-xl font-medium mb-2">Email</label>
+                    <input id="email" type="text" [(ngModel)]="account.email" placeholder="Email address" pInputText
+                        class="mb-4">
+                </div>
+            </div>
+            <div class="flex flex-column align-items-center">
+                <div>
+                    <label for="role" class="flex text-900 text-xl font-medium mb-2">Role</label>
+                    <p-dropdown id="role" [showClear]="true" styleClass="mb-3" [options]="roles"
+                        [(ngModel)]="account.role" placeholder="Select a Role" class="w-full md:w-30rem"></p-dropdown>
+
+                    <label for="password" class="flex text-900 font-medium text-xl mb-2">Password</label>
+                    <p-password id="password" [(ngModel)]="account.password" placeholder="Password" [toggleMask]="true"
+                        styleClass="mb-3" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+                    <label for="password" class="flex text-900 font-medium text-xl mb-2">Confirm
+                        Password</label>
+                    <p-password id="password" [(ngModel)]="account.confirmPassword" placeholder="Re-Enter Password"
+                        [toggleMask]="true" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                </div>
+            </div>
+
+            <div class="field justify-content-end">
+                <span class="text-900 font-medium text-xl mb-4"></span>
+                <p-checkbox [(ngModel)]="account.acceptTerms" [binary]="true" inputId="binary" label="Accept Terms"
+                    inputStyleClass="w-full p-3 md:w-30rem"></p-checkbox>
+            </div>
+
+
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2"
+            (click)="createModal=false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-rounded p-button-success mr-2"
+            (click)="register()"></button>
+    </ng-template>
+
+</p-dialog>
+
+<!-- Edit modal -->
+<p-dialog header="Edit Account" [(visible)]="updateModal" [style]="{width: '40%'}" class="p-fluid" [modal]="true">
+    <ng-template pTemplate="content">
+        <div class="px-8 py-6">
+
+            <div class="field">
+                <label for="title" class="flex text-900 text-xl font-medium mb-2">Title</label>
+                <input id="title" [(ngModel)]="selectedAccount.title" placeholder="Title" pInputText>
+            </div>
+
+            <div class="field">
+
+                <label for="firstname" class="flex text-900 text-xl font-medium mb-2">Firstname</label>
+                <input id="firstname" type="text" [(ngModel)]="selectedAccount.firstName" placeholder="First Name"
+                    pInputText>
+            </div>
+
+            <div class="field">
+                <label for="lastname" class="flex text-900 text-xl font-medium mb-2">Lastname</label>
+                <input id="lastname" type="text" [(ngModel)]="selectedAccount.lastName" placeholder="Last Name"
+                    pInputText>
+            </div>
+
+            <div class="field">
+                <label for="email" class="flex text-900 text-xl font-medium mb-2">Email</label>
+                <input id="email" type="text" [(ngModel)]="selectedAccount.email" placeholder="Email address"
+                    pInputText>
+            </div>
+
+            <div class="field">
+                <label for="role" class="flex text-900 text-xl font-medium mb-2">Role</label>
+                <p-dropdown id="role" [showClear]="true" styleClass="mb-3" [options]="roles" appendTo="body"
+                    placeholder="Select Role" [(ngModel)]="selectedAccount.role"></p-dropdown>
+                    
+            </div>
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2"
+            (click)="updateModal=false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-rounded p-button-success mr-2"
+            (click)="update()"></button>
+    </ng-template>
+
+</p-dialog>
+
+
+<!-- Delete Modal -->
+<p-dialog header="Delete Account" [(visible)]="deleteModal" [style]="{width: '30%'}" class="p-fluid" [modal]="true">
+
+    <ng-template pTemplate="content">
+        <div class="p-5">
+            <div class="flex align-emergencyContacts-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="deleteAccount">Are you sure you want to delete Account
+                    <b>{{deleteAccount.title}} {{deleteAccount.firstName}} {{deleteAccount.lastName}}</b>?</span>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-success mr-2"
+            (click)="deleteModal=false"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2"
+            (click)="confirmDelete()"></button>
+    </ng-template>
+
+</p-dialog>

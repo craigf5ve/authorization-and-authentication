@@ -1,0 +1,32 @@
+
+<!-- For Admin -->
+
+<div class="grid" *ngIf="currentUser.roleName === 'SuperAdmin'">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <div class="col-12 button-container">
+            </div>
+            <div class="button-item">
+                <button *ngIf="currentUser.roleName === 'SuperAdmin'" pButton label="ADMIN"
+                    icon="pi pi-dollar" class="p-button-help" (click)="this.closeBatchPricesModal = true"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- For User -->
+<div class="grid" *ngIf="currentUser.roleName === 'Admin'">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <div class="col-12 button-container">
+            </div>
+            <div class="button-item">
+                <button *ngIf="currentUser.roleName === 'Admin'" pButton label="USER"
+                    icon="pi pi-dollar" class="p-button-help" (click)="this.closeBatchPricesModal = true"></button>
+            </div>
+        </div>
+    </div>
+</div>

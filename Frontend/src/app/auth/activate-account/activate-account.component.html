@@ -1,0 +1,56 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <p-toast></p-toast>
+        <img src="assets/layout/images/shearwater-logo.jpg" alt="Shearwater logo" class="mb-5 w-10rem flex-shrink-0">
+
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="shadow-8 surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+
+                <div class="text-center mb-5">
+                    <span class="text-600 font-medium text-lg">Account Activation</span>
+                </div>
+
+                <div class="p-fluid">
+
+
+                    <div class="flex flex-column justify-content-center text-center mt-3">
+                        <div *ngIf="!loading && response.isSuccess"
+                            class="flex flex-column justify-content-center text-center mt-3">
+
+                            <i class="pi pi-check-circle text-green-500" style="font-size: 2.5rem"></i>
+                            <span class=" text-3xl ">
+                                {{response.message}}
+                            </span>
+                        </div>
+                        <div *ngIf="!loading && !response.isSuccess && !error"
+                            class="flex flex-column justify-content-center text-center mt-3">
+
+                            <i class="pi pi-times-circle text-red-500" style="font-size: 2.5rem"></i>
+                            <span class=" text-3xl ">
+                                {{response.message}}
+                            </span>
+                        </div>
+
+                        <div *ngIf="error" class="flex flex-column justify-content-center text-center m-2">
+
+                            <i class="pi pi-times-circle text-red-500" style="font-size: 2.5rem"></i>
+                            <span class=" text-3xl ">
+                                {{response.message}}
+                            </span>
+                        </div>
+                        <div *ngIf="loading" class="flex flex-column justify-content-center text-center">
+                            <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+                        </div>
+                        <span class="mt-5 text-xl">
+                            Proceed To
+                            <a class="font-medium no-underline cursor-pointer" style="color: var(--primary-color)"
+                                routerLink="/auth/login">Login Here</a>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
